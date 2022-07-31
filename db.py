@@ -1,28 +1,79 @@
 import mysql.connector as c
-con = c.connect(host = 'localhost',
+con = c.connect(host= 'localhost',
                 user = 'root',
                 passwd = 'Ankit@8285',
-                database = 'project')
+                database = 'ybank')
 
 cursor = con.cursor()
 
 # if con.is_connected():
-#     print("connection successfully!!")
+#      print("connected")
+
+# create the menu
+
+while True:
+
+    print("Welcome to Y bank India!!")
+
+    choice = input("1.Open Account\n2.Cash deposit\n3.Cash withdrawl\n4.Account details\n5.Exit")
+    # open a/c
+    # name
+    # mobile num
+    # age
+    # amount
+
+    if choice == '1':
+        name = input("entr the name")
+        number = int(input("Enter the mobile number"))
+        age = int(input("Enter your age"))
+        amount = float (input("Enter the amount"))
+
+        query = "Insert into user values('{}',{},{},{})".format(name,number,age,amount)
+
+        cursor.execute(query)
+        con.commit()
+        print("Account open successfully!!")
 
 
-choice = input("1.Open A/c\n2.Cash Withdrawl\n3.Cash deposit\n4.Account Details\n5.Exit")
+        # choice 2==> cash deposit
+        # amount & name
 
-if choice == '1':
-    name= input("entr the name")
-    age = int(input("entr the age"))
-    number = int(input("entr the number"))
-    query =  "insert into user values('{}',{},{})".format(name,age,number)
-    cursor.execute(query)
-    con.commit()
-    print("Data eneterd successfully!!")
+    elif choice == '2':
+        amount = float(input('Enter the amount'))
+        name = input("Enter the name")
 
-elif choice == '2':
-    name = input("Enter the name")
-    number = int(input("enter the amount"))
+        query = "Update user set amount = {} where name = '{}' ".format(amount,name)
+        cursor.execute(query)
+        con.commit()
+        print('Cash Deposited!!')
 
-    query = 
+
+
+        # option number 3
+        # cash withdrawl
+
+    elif choice == '3':
+        amount = float(input("enter the amount"))
+        name = input("enter the name")
+
+        query = "update user set amount = {},where name ='{}'".format(amount,name)
+        cursor.execute(query)
+        con.commit()
+        print("Cash withdrawl")
+
+
+
+    # a/c details
+
+    elif choice == '4':
+        query = 'select * from user'
+        cursor.execute(query)
+
+        acc_details = cursor.fetchmany()
+        print(acc_details)
+        con.commit()
+
+
+# exit the code
+    elif choice == '5':
+        break
